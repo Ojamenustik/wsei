@@ -1,0 +1,55 @@
+use Chinook
+GO
+CREATE VIEW [dbo].[v_Track]
+	AS
+	SELECT 
+		[tr].[TrackId]
+	,	[tr].[Name]				AS [TrackName]
+	,	[tr].[AlbumId]
+	,	[tr].[Composer]
+	,	[tr].[Milliseconds]
+	,	[tr].[Bytes]
+	,	[tr].[UnitPrice]
+	,	[gr].[Name]				AS [GenreName]
+	,	[mt].[Name]				AS [MediaTypeName]
+	,   al.Title as TytulAlbumu
+	,   Artist.Name as ArtistName
+	FROM 
+			[dbo].[Track]	AS tr
+	INNER JOIN	[dbo].[MediaType]	AS mt ON [mt].[MediaTypeId] 	= [tr].[MediaTypeId]
+	INNER JOIN	[dbo].[Genre]	AS gr ON [gr].[GenreId]		= [tr].[GenreId]
+	INNER JOIN Album AS al ON al.AlbumId =tr.AlbumId
+	INNER JOIN Artist ON Artist.ArtistId = al.ArtistId
+	GO
+	
+	SELECT *
+	INTO [dbo].[newdenormTrack]
+	FROM [dbo].[v_Track]
+	GO
+
+	SELECT *
+	FROM newdenormTrack
+	GO
+------------------------------------------------------
+use Chinook
+GO
+
+SELECT 
+   c.CustomerId
+,  c.FirstName
+,  c.LastName
+,  c.Company
+,  c.Address
+,  c.City
+,  e.EmployeeId
+,  e.FirstName
+,  e.LastName
+,  e.Title
+,  e.Address
+,  e.City
+FROM 
+Customer AS c
+INNER JOIN Employee AS e ON SupportRepId = e.EmployeeId
+
+------------------------------------------------
+
